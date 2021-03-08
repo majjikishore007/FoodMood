@@ -1,0 +1,49 @@
+.image {
+  height: 70%;
+  margin: 10px auto;
+}
+.container-fluid {
+  margin-left: 15%;
+  margin-top: 10%;
+}
+.container-fluid h1 {
+  font-size: 50px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+}
+.subtitle {
+  margin-top: 40px;
+  font-size: 20px;
+}
+.subtitle span {
+  display: block;
+}
+.button1 {
+  padding: 16px;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  background-color: #1faa59;
+  margin: 10px auto;
+  color: white;
+}
+.button2 {
+  padding: 15px;
+  outline: none;
+  border: #1faa59 solid;
+  border-radius: 10px;
+  background-color: white;
+  margin-left: 20px;
+  color: #1faa59;
+}
+.button2:hover {
+  background-color: #1faa59;
+  color: white;
+}
+.button1:hover {
+  background-color: #117e3e;
+}
+.containerfluid {
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+}

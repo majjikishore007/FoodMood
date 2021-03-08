@@ -1,0 +1,12 @@
+/* Styles for wrapping the search box */
+.formControl {
+  max-width: 200px;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+}
+.button {
+  display: inline;
+  border: none;
+  background-color: beige;
+}

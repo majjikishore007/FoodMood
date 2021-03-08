@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import '../components/menu.css';
+import SearchBar from './SearchBar';
+import '../components/css/menu.css';
 const currentTab = (history, path) => {
   if (history.location.pathname === path) {
     console.log(history.location.pathname);
-    return { color: '#50DBB4' };
+    return { color: '#6ac47e' };
   } else {
-    return { color: 'white' };
+    return { color: 'black' };
   }
 };
 const Menu = ({ history }) => {
@@ -24,23 +25,48 @@ const Menu = ({ history }) => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link style={currentTab(history, '/')} className="nav-link" to="/">
+          <Link
+            style={currentTab(history, '/about')}
+            className="nav-link"
+            to="/"
+          >
             About
           </Link>
         </li>
         <li className="nav-item">
-          <Link style={currentTab(history, '/')} className="nav-link" to="/">
+          <Link
+            style={currentTab(history, '/recipes')}
+            className="nav-link"
+            to="/"
+          >
             Recipes
           </Link>
         </li>
         <li className="nav-item">
-          <Link style={currentTab(history, '/')} className="nav-link" to="/">
+          <Link
+            style={currentTab(history, '/downloads')}
+            className="nav-link"
+            to="/"
+          >
             Download
           </Link>
         </li>
-        <li className="nav-item">
-          <Link style={currentTab(history, '/')} className="nav-link" to="/">
+        <li className="nav-item mx-0">
+          <Link
+            style={currentTab(history, '/contact')}
+            className="nav-link"
+            to="/"
+          >
             Contact
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link
+            style={currentTab(history, '/contact')}
+            className="nav-link mx-0"
+            to="/"
+          >
+            <SearchBar></SearchBar>
           </Link>
         </li>
       </ul>

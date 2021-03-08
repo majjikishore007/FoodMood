@@ -1,14 +1,18 @@
 .nav {
   background-color: white;
   padding: 25px;
+  margin-right: 10px;
+  margin-left: 20px;
+  margin-bottom: 40px;
 }
 .element2 {
   margin-top: 18px;
   margin-right: 10%;
 }
 .nav-item {
-  font-size: 1.4em;
+  font-size: 1.3em;
   font-family: bold;
+  margin: 0;
   padding: 10px;
   margin-top: 10px;
   /* margin: 10px auto; */
@@ -16,11 +20,12 @@
 
 span.element {
   color: black;
-  font-size: 2em;
+  font-size: 1.9em;
+  font-weight: bold;
 }
 
 span.element a {
   color: #6ac47e;
   text-decoration: none;
-  margin-right: 10px;
+  margin-right: 4px;
 }
