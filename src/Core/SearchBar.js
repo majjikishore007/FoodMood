@@ -1,14 +1,70 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../components/css/searchBar.css';
+import { Link, Redirect } from 'react-router-dom';
+import { getSerchedItem } from '../Menu/helper/ApiCalls.js';
 const SearchBar = () => {
-  return (
-    <div className="input-group">
-      <input type="text" className="formControl" placeholder="Search..." />
-      <div className="input-group-append">
-        <button className="button" type="button">
-          <i className="fa fa-search"></i>
-        </button>
+  const [values, setvalues] = useState({
+    find: '',
+    error: '',
+    loading: false,
+    didRedirect: false,
+  });
+  const { find, didRedirect, loading } = values;
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setvalues({ ...values, error: false, loading: true });
+    getSerchedItem(find)
+      .then((response) => {
+        if (response.error) {
+          setvalues({ ...values, error: response.error, loading: false });
+        } else {
+          setvalues({
+            ...values,
+            find: '',
+            error: '',
+            loading: false,
+            didRedirect: true,
+          });
+          console.log('RESPONSE', response);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const performRedirect = () => {
+    console.log('Doing re direct');
+    // console.log(history.location.pathname);
+    if (didRedirect) {
+      console.log('Doing re direct');
+      return <Redirect to="/recipes/searchedrecipes" />;
+    }
+  };
+  const handelChange = (name) => (event) => {
+    setvalues({ ...values, error: false, [name]: event.target.value });
+  };
+  const searchBarForm = () => {
+    return (
+      <div className="input-group">
+        <input
+          onChange={handelChange('find')}
+          value={find}
+          type="text"
+          className="formControl"
+          placeholder="Search..."
+        />
+        <div className="input-group-append">
+          <button onClick={onSubmit} className="button" type="button">
+            <i className="fa fa-search"></i>
+          </button>
+        </div>
       </div>
+    );
+  };
+  return (
+    <div>
+      {searchBarForm()}
+      {performRedirect()}
     </div>
   );
 };
