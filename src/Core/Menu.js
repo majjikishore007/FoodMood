@@ -4,7 +4,7 @@ import SearchBar from './SearchBar';
 import '../components/css/menu.css';
 const currentTab = (history, path) => {
   if (history.location.pathname === path) {
-    console.log(history.location.pathname);
+    // console.log(history.location.pathname);
     return { color: '#6ac47e' };
   } else {
     return { color: 'black' };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../components/css/searchBar.css';
 import { Link, Redirect } from 'react-router-dom';
 import { getSerchedItem } from '../Menu/helper/ApiCalls.js';
+import { addItemToCart } from '../Core/helper/SearchBarHelper';
 const SearchBar = () => {
   const [values, setvalues] = useState({
     find: '',
@@ -10,6 +11,18 @@ const SearchBar = () => {
     didRedirect: false,
   });
   const { find, didRedirect, loading } = values;
+  const additemToCart = () => {
+    addItemToCart(find, () =>
+      setvalues({
+        ...values,
+        find: '',
+        error: '',
+        loading: false,
+        didRedirect: true,
+      })
+    );
+  };
+
   const onSubmit = (event) => {
     event.preventDefault();
     setvalues({ ...values, error: false, loading: true });
@@ -18,6 +31,12 @@ const SearchBar = () => {
         if (response.error) {
           setvalues({ ...values, error: response.error, loading: false });
         } else {
+          let pro = response;
+          for (let index = 0; index < pro.products.length; index++) {
+            console.log('RESPONSE', pro.products[index]);
+          }
+
+          // console.log('RESPONSE ', response);
           setvalues({
             ...values,
             find: '',
@@ -25,7 +44,6 @@ const SearchBar = () => {
             loading: false,
             didRedirect: true,
           });
-          console.log('RESPONSE', response);
         }
       })
       .catch((error) => {
@@ -33,7 +51,7 @@ const SearchBar = () => {
       });
   };
   const performRedirect = () => {
-    console.log('Doing re direct');
+    // console.log('Doing re direct');
     // console.log(history.location.pathname);
     if (didRedirect) {
       console.log('Doing re direct');
