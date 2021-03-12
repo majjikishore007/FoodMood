@@ -1,13 +1,12 @@
 import React from 'react';
-
-const Card = ({ name }) => {
+// import '../components/css/card.css';
+const Card = ({ title, img, time }) => {
   return (
-    <div className="card text-white bg-info  border border-info ">
-      <div className="card-header lead">{name}</div>
+    <div className="card" onClick={() => {}}>
+      <img className="card-img-top" src={img} alt />
       <div className="card-body">
-        <p className="lead bg-success font-weight-normal text-wrap">
-          getting started
-        </p>
+        <h5 className="card-title">{title}</h5>
+        <h5 className="card-text">Time : {time} min</h5>
       </div>
     </div>
   );

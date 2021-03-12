@@ -28,7 +28,7 @@ const Menu = ({ history }) => {
           <Link
             style={currentTab(history, '/about')}
             className="nav-link"
-            to="/"
+            to="/about"
           >
             About
           </Link>

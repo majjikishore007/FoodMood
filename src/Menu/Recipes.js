@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import Base from '../Core/Base';
-import { getMenu } from './helper/ApiCalls';
+// import Base from '../Core/Base';
+import { getRandom } from './helper/ApiCalls';
 import '../components/css/Dropdown.css';
+import Card from '../Menu/card.js';
 const currentTab = (history, path) => {
   if (history.location.pathname === path) {
     // console.log(history.location.pathname);
@@ -11,10 +12,30 @@ const currentTab = (history, path) => {
     return { color: 'black' };
   }
 };
-const recipes = ({ history }) => {
-  // const [Items, setItems] = useState([]);
-
-  // const loadMenu = () => {};
+const Recipes = ({ history }) => {
+  const [Items, setItems] = useState([]);
+  const [Values, setValues] = useState({
+    error: '',
+    loading: false,
+  });
+  const { error, loading } = Values;
+  const loadRandomItems = () => {
+    console.log('loaditems');
+    getRandom()
+      .then((response) => {
+        if (response.error) {
+          setValues({ ...Values, error: response.error });
+          console.log(response.error);
+        } else {
+          setValues({ ...Values, loading: true });
+          let data = response.recipes;
+          setItems(data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const loadMenuBar = () => {
     return (
       <div>
@@ -73,7 +94,27 @@ const recipes = ({ history }) => {
       </div>
     );
   };
-  return <div>{loadMenuBar()}</div>;
+  return (
+    <React.Fragment>
+      <div className="container">
+        {loadMenuBar()}
+        {!loading && loadRandomItems()}
+        <div className="row">
+          {Items.map((product, index) => {
+            return (
+              <div key={index} className="col-4 mb-4">
+                <Card
+                  title={product.title}
+                  time={product.readyInMinutes}
+                  img={product.image}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </React.Fragment>
+  );
 };
 
-export default recipes;
+export default Recipes;

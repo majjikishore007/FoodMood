@@ -63,3 +63,24 @@ export const getMenu = (item) => {
       console.log(error);
     });
 };
+export const getRandom = () => {
+  console.log('GET RANDOM');
+  //  'https://api.spoonacular.com/recipes/random?number=3&tags=chicken,briyani&apiKey=f9a8878ae3ef4dc0b445c9cbf435e628';
+  return fetch(
+    `${API}/recipes/random?number=3&tags=chicken,briyani&apiKey=${process.env.REACT_APP_KEY}`
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      // var items = data;
+      // console.log('ITEMS: ', items);
+      return data;
+      // items.products.map((product) => {
+      //   console.log(product.title);
+      // });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
