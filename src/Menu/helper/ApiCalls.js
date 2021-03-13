@@ -12,7 +12,6 @@ export const getSerchedItem = (find) => {
       return response.json();
     })
     .then((data) => {
-      //   console.log('data', data);
       return JSON.stringify(data);
     })
     .catch((error) => {
@@ -21,7 +20,6 @@ export const getSerchedItem = (find) => {
 };
 
 export const getSuggestions = () => {
-  //https://api.spoonacular.com/recipes/random?number=1&tags=vegetarian,dessert
   {
     return fetch(
       `${API}/recipes/random?number=10&tags=vegetarian&${process.env.REACT_APP_KEY}`
@@ -30,12 +28,7 @@ export const getSuggestions = () => {
         return response.json();
       })
       .then((data) => {
-        // var items = data;
-        // console.log('ITEMS: ', items);
         return data;
-        // items.products.map((product) => {
-        //   console.log(product.title);
-        // });
       })
       .catch((error) => {
         console.log(error);
@@ -43,7 +36,6 @@ export const getSuggestions = () => {
   }
 };
 
-//https://api.spoonacular.com/food/menuItems/search?query=burger&number=2
 export const getMenu = (item) => {
   return fetch(
     `${API}/food/menuItems/search?query=${item}&number=2&apiKey=${process.env.REACT_APP_KEY}`
@@ -52,12 +44,7 @@ export const getMenu = (item) => {
       return response.json();
     })
     .then((data) => {
-      // var items = data;
-      // console.log('ITEMS: ', items);
       return data;
-      // items.products.map((product) => {
-      //   console.log(product.title);
-      // });
     })
     .catch((error) => {
       console.log(error);
@@ -65,20 +52,15 @@ export const getMenu = (item) => {
 };
 export const getRandom = () => {
   console.log('GET RANDOM');
-  //  'https://api.spoonacular.com/recipes/random?number=3&tags=chicken,briyani&apiKey=f9a8878ae3ef4dc0b445c9cbf435e628';
+
   return fetch(
-    `${API}/recipes/random?number=3&tags=chicken,briyani&apiKey=${process.env.REACT_APP_KEY}`
+    `${API}/recipes/random?number=10&tags=chicken,briyani&apiKey=${process.env.REACT_APP_KEY}`
   )
     .then((response) => {
       return response.json();
     })
     .then((data) => {
-      // var items = data;
-      // console.log('ITEMS: ', items);
       return data;
-      // items.products.map((product) => {
-      //   console.log(product.title);
-      // });
     })
     .catch((error) => {
       console.log(error);

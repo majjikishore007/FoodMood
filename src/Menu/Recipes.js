@@ -104,9 +104,15 @@ const Recipes = ({ history }) => {
             return (
               <div key={index} className="col-4 mb-4">
                 <Card
+                  product={product}
                   title={product.title}
                   time={product.readyInMinutes}
                   img={product.image}
+                  summary={product.summary}
+                  cuisines={[product.cuisines]}
+                  dishTypes={[product.dishTypes]}
+                  instructions={product.instructions}
+                  analyzedInstructions={[product.analyzedInstructions]}
                 />
               </div>
             );

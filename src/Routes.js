@@ -5,11 +5,13 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Recipes from './Menu/Recipes.js';
 import gettingstarted from './Menu/gettingStarted';
 import About from './Core/About.js';
+import Startcooking from './Menu/CookingItem';
 const Routes = () => {
   return (
     <Router>
       <Switch>
         <Route path="/" exact component={Home} />
+        <Route path="/startcooking" exact component={Startcooking} />
         <Route path="/about" exact component={About} />
         <Route path="/recipes" exact component={Recipes} />
         <Route path="/home/gettingstarted" exact component={gettingstarted} />
