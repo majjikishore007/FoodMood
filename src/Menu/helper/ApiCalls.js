@@ -1,9 +1,9 @@
 import { API } from '../../foodApi';
-// https://api.spoonacular.com/food/products/search?query=yogurt&apiKey=API-KEY
+// https://api.spoonacular.com/food/menuItems/search?query=sandwicha&number=8&apiKey=f9a8878ae3ef4dc0b445c9cbf435e628
 export const getSerchedItem = (find) => {
   console.log('get searched', find);
   return fetch(
-    `${API}/food/products/search?query=${find}&apiKey=${process.env.REACT_APP_KEY}`,
+    `${API}food/menuItems/search?query=${find}&number=8&apiKey=${process.env.REACT_APP_KEY}`,
     {
       method: 'GET',
     }
@@ -12,7 +12,7 @@ export const getSerchedItem = (find) => {
       return response.json();
     })
     .then((data) => {
-      return JSON.stringify(data);
+      return data;
     })
     .catch((error) => {
       console.log(error);

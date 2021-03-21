@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 // import Base from '../Core/Base';
 import { getRandom } from './helper/ApiCalls';
@@ -18,6 +18,11 @@ const Recipes = ({ history }) => {
     error: '',
     loading: false,
   });
+
+  useEffect(() => {
+    loadRandomItems();
+  }, []);
+
   const { error, loading } = Values;
   const loadRandomItems = () => {
     console.log('loaditems');
@@ -36,6 +41,7 @@ const Recipes = ({ history }) => {
         console.log(error);
       });
   };
+
   const loadMenuBar = () => {
     return (
       <div>
@@ -98,7 +104,7 @@ const Recipes = ({ history }) => {
     <React.Fragment>
       <div className="container">
         {loadMenuBar()}
-        {!loading && loadRandomItems()}
+
         <div className="row">
           {Items.map((product, index) => {
             return (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../components/css/searchBar.css';
 import { Link, Redirect } from 'react-router-dom';
-import { getSerchedItem } from '../Menu/helper/ApiCalls.js';
+import { search } from '../Menu/helper/EdmanApi';
 import { addItemToCart } from '../Core/helper/SearchBarHelper';
 const SearchBar = () => {
   const [values, setvalues] = useState({
@@ -9,49 +9,42 @@ const SearchBar = () => {
     error: '',
     loading: false,
     didRedirect: false,
+    submiting: false,
   });
-  const { find, didRedirect, loading } = values;
-  const additemToCart = () => {
-    addItemToCart(find, () =>
-      setvalues({
-        ...values,
-        find: '',
-        error: '',
-        loading: false,
-        didRedirect: true,
-      })
-    );
-  };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
-    setvalues({ ...values, error: false, loading: true });
-    getSerchedItem(find)
+  const { find, didRedirect, loading, submiting } = values;
+
+  const searchRecipes = () => {
+    search(find)
       .then((response) => {
         if (response.error) {
           setvalues({ ...values, error: response.error, loading: false });
         } else {
-          let pro = response;
-          for (let index = 0; index < pro.products.length; index++) {
-            console.log('RESPONSE', pro.products[index]);
-          }
-
-          // console.log('RESPONSE ', response);
-          setvalues({
-            ...values,
-            find: '',
-            error: '',
-            loading: false,
-            didRedirect: true,
+          // console.log(response);
+          addItemToCart(response, () => {
+            setvalues({
+              ...values,
+              find: '',
+              error: '',
+              loading: false,
+              didRedirect: true,
+              submiting: true,
+            });
           });
+          // console.log('RESPONSE ', response);
         }
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    searchRecipes(find);
+  };
   const performRedirect = () => {
-    // console.log('Doing re direct');
+    console.log('Doing re direct');
     // console.log(history.location.pathname);
     if (didRedirect) {
       console.log('Doing re direct');
@@ -82,7 +75,7 @@ const SearchBar = () => {
   return (
     <div>
       {searchBarForm()}
-      {performRedirect()}
+      {submiting && performRedirect()}
     </div>
   );
 };
