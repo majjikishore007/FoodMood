@@ -18,10 +18,10 @@ const Home = () => {
     }
   };
   const onSubmit = (path) => {
-    if (path == '/gettingstarted') {
+    if (path === '/gettingstarted') {
       setvalues({ ...values, started: true });
     }
-    if (path == '/menu') {
+    if (path === '/menu') {
       setvalues({ ...values, menu: true });
     }
   };
@@ -65,7 +65,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div class="containerfluid">
+        <div className="containerfluid">
           <h1>Popular Food</h1>
           <h3>we provide a hign variety of recipes </h3>
         </div>

@@ -46,7 +46,10 @@ const Card = ({
           getReload();
         }}
       >
-        <img className="card-img-top" src={img} />
+        <div className="img-hover-zoom">
+          <img src={img} alt="This zooms-in really well and smooth" />
+        </div>
+        {/* <img className="card-img-top" src={img} /> */}
         <div className="card-body">
           <h5 className="card-title">{title}</h5>
           {calories != null ? (

@@ -46,3 +46,14 @@
 .dropdown:hover .dropbtn {
   background-color: #1c8d73;
 }
+.listbtn {
+  background-color: #4caf50; /* Green */
+  border: none;
+  width: 100%;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 19px;
+}

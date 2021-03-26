@@ -50,16 +50,16 @@ export const getMenu = (item) => {
       console.log(error);
     });
 };
-export const getRandom = () => {
+export const getRandom = (find) => {
   console.log('GET RANDOM');
 
-  return fetch(
-    `${API}/recipes/random?number=10&tags=chicken,briyani&apiKey=${process.env.REACT_APP_KEY}`
-  )
+  return fetch()
+  // `${API}/recipes/random?number=10&tags=${find}&apiKey=${process.env.REACT_APP_KEY}`
     .then((response) => {
       return response.json();
     })
     .then((data) => {
+      console.log('RES:', data);
       return data;
     })
     .catch((error) => {

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-// import Base from '../Core/Base';
-import { getRandom } from './helper/ApiCalls';
-import '../components/css/Dropdown.css';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { search } from '../Menu/helper/EdmanApi';
+import LoadingBar from 'react-top-loading-bar';
 import Card from '../Menu/card.js';
+import Dropdown from './DropDown';
+
 const currentTab = (history, path) => {
   if (history.location.pathname === path) {
     // console.log(history.location.pathname);
@@ -13,35 +14,64 @@ const currentTab = (history, path) => {
   }
 };
 const Recipes = ({ history }) => {
+  const [progress, setProgress] = useState(0);
+  const [name, setName] = useState('chicken');
   const [Items, setItems] = useState([]);
-  const [Values, setValues] = useState({
-    error: '',
-    loading: false,
+  const [values, setValues] = useState({
+    isLoading: false,
+    isError: '',
   });
-
+  const recipes = [
+    'Mutton recipes',
+    'Seafood recipes',
+    'Biryani recipes',
+    'Street food',
+    'Paneer recipes',
+  ];
+  const cuisines = [
+    'SouthIndian',
+    'Pungabi',
+    'Italian',
+    'Rajastani',
+    'Thai',
+    'East indian',
+  ];
+  const Desserts = [
+    'Cakes',
+    'Cookies',
+    'Ice cream',
+    'Puddings',
+    'Paneer recipes',
+    'Cool cakes',
+  ];
   useEffect(() => {
-    loadRandomItems();
-  }, []);
-
-  const { error, loading } = Values;
-  const loadRandomItems = () => {
-    console.log('loaditems');
-    getRandom()
-      .then((response) => {
+    searchRecipes(name);
+  }, [name]);
+  const { isLoading, isError } = values;
+  const searchRecipes = () => {
+    setValues({ ...values, isLoading: true });
+    setProgress(progress + 30);
+    setTimeout(() => {
+      search(name).then((response) => {
         if (response.error) {
-          setValues({ ...Values, error: response.error });
           console.log(response.error);
+          setValues({ ...values, error: response.error, loading: false });
         } else {
-          setValues({ ...Values, loading: true });
-          let data = response.recipes;
-          setItems(data);
+          setValues({ ...values, error: '' });
+
+          setItems(response.hits);
+          setProgress(100);
         }
-      })
-      .catch((error) => {
-        console.log(error);
       });
+    }, 2000);
   };
 
+  const handleChange = (e) => {
+    console.log('VALUE', e.target.value);
+    setName(e.target.value);
+    console.log(name);
+    // ref.current.continuousStart();
+  };
   const loadMenuBar = () => {
     return (
       <div>
@@ -57,68 +87,89 @@ const Recipes = ({ history }) => {
               Home
             </Link>
           </li>
-          <li className="nav-item mx-0">
-            <div className="dropdown">
-              <button className="dropbtn">Recipes</button>
-              <div className="dropdown-content">
-                <a href="#">Chicken recipes</a>
-                <a href="#">Mutton recipes</a>
-                <a href="#">Sea food recipes</a>
-                <a href="#">Birayani recipes</a>
-                <a href="#">Street food</a>
-                <a href="#">Paneer recipes</a>
-              </div>
-            </div>
-          </li>
-          <li className="nav-item mx-0">
-            <div className="dropdown">
-              <button className="dropbtn">Cuisines</button>
-              <div className="dropdown-content">
-                <a href="#">SouthIndian</a>
-                <a href="#">Pungabi</a>
-                <a href="#">Italian</a>
-                <a href="#">Rajastani</a>
-                <a href="#">Thai</a>
-                <a href="#">East indian</a>
-              </div>
-            </div>
-          </li>
-          <li className="nav-item mx-0">
-            <div className="dropdown">
-              <button className="dropbtn">Desserts</button>
-              <div className="dropdown-content">
-                <a href="#">Cakes</a>
-                <a href="#">Cookies</a>
-                <a href="#">Ice cream</a>
-                <a href="#">Puddings</a>
-                <a href="#">Cool cakes</a>
-                {/* <a href="#">Link 6</a> */}
-              </div>
-            </div>
-          </li>
+          <Dropdown title="Recipes">
+            {recipes.map((item, index) => {
+              return (
+                <button
+                  name={item}
+                  onClick={handleChange}
+                  value={item}
+                  key={index}
+                  className="listbtn"
+                >
+                  {item}
+                </button>
+              );
+            })}
+          </Dropdown>
+          <Dropdown title="Cuisines">
+            {cuisines.map((item, index) => {
+              return (
+                <button
+                  name={item}
+                  onClick={handleChange}
+                  value={item}
+                  key={index}
+                  className="listbtn"
+                >
+                  {item}
+                </button>
+              );
+            })}
+          </Dropdown>
+          <Dropdown title="Desserts">
+            {Desserts.map((item, index) => {
+              return (
+                <button
+                  name={item}
+                  onClick={handleChange}
+                  value={item}
+                  key={index}
+                  className="listbtn"
+                >
+                  {item}
+                </button>
+              );
+            })}
+          </Dropdown>
         </ul>
       </div>
     );
   };
+  const loadingMessage = () => {
+    return (
+      isLoading && (
+        <div>
+          <LoadingBar
+            color="#6AC47E"
+            height="8px"
+            progress={progress}
+            onLoaderFinished={() => setProgress(0)}
+          />
+          <br />
+        </div>
+      )
+    );
+  };
+
+  if (isError) {
+    return <h2>Something went wrong</h2>;
+  }
+
   return (
     <React.Fragment>
       <div className="container">
         {loadMenuBar()}
-
+        {loadingMessage()}
         <div className="row">
           {Items.map((product, index) => {
             return (
               <div key={index} className="col-4 mb-4">
                 <Card
-                  product={product}
-                  title={product.title}
-                  time={product.readyInMinutes}
-                  img={product.image}
-                  summary={product.summary}
-                  cuisines={[product.cuisines]}
-                  dishTypes={[product.dishTypes]}
-                  instructions={product.instructions}
-                  analyzedInstructions={[product.analyzedInstructions]}
+                  title={product.recipe.label}
+                  time={product.recipe.totalTime}
+                  img={product.recipe.image}
+                  calories={product.recipe.calories}
                 />
               </div>
             );
