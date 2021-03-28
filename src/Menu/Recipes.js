@@ -1,6 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { search } from '../Menu/helper/EdmanApi';
+import {
+  search,
+  searchByCuissines,
+  searchByDesserts,
+} from '../Menu/helper/EdmanApi';
 import LoadingBar from 'react-top-loading-bar';
 import Card from '../Menu/card.js';
 import Dropdown from './DropDown';
@@ -16,8 +20,11 @@ const currentTab = (history, path) => {
 const Recipes = ({ history }) => {
   const [progress, setProgress] = useState(0);
   const [name, setName] = useState('chicken');
+  const [cuss, setCussines] = useState('South Indian');
+  const [dess, setDesserts] = useState('Cakes');
   const [Items, setItems] = useState([]);
   const [values, setValues] = useState({
+    searchfor: '',
     isLoading: false,
     isError: '',
   });
@@ -29,28 +36,54 @@ const Recipes = ({ history }) => {
     'Paneer recipes',
   ];
   const cuisines = [
-    'SouthIndian',
-    'Pungabi',
-    'Italian',
-    'Rajastani',
-    'Thai',
-    'East indian',
+    'Asian',
+    'British',
+    'Caribbean',
+    '	Central Europe',
+    'Chinese',
+    'Eastern Europe',
+    'French',
+    'Indian',
+    'Japanese',
+    'Mexican',
   ];
   const Desserts = [
-    'Cakes',
-    'Cookies',
-    'Ice cream',
-    'Puddings',
-    'Paneer recipes',
-    'Cool cakes',
+    'Biscuits and cookies',
+    'Condiments and sauces',
+    'Desserts',
+    'Main course',
+    'Pancake',
+    'Egg',
+    'Cereals',
+    'Alcohol cocktail',
   ];
+  const { isLoading, isError, searchfor } = values;
   useEffect(() => {
-    searchRecipes(name);
-  }, [name]);
-  const { isLoading, isError } = values;
+    getCall();
+  }, [name, cuss, dess]);
+  const getCall = () => {
+    if (searchfor === 'R') {
+      setProgress(0);
+      setProgress(progress + 20);
+      searchRecipes();
+    } else if (searchfor === 'C') {
+      setProgress(0);
+      setProgress(progress + 20);
+      searchCuissines();
+    } else if (searchfor === 'D') {
+      setProgress(0);
+      setProgress(progress + 20);
+      searchDesserts();
+    } else {
+      setProgress(0);
+      setProgress(progress + 20);
+      searchRecipes();
+    }
+  };
+
   const searchRecipes = () => {
     setValues({ ...values, isLoading: true });
-    setProgress(progress + 30);
+
     setTimeout(() => {
       search(name).then((response) => {
         if (response.error) {
@@ -65,12 +98,59 @@ const Recipes = ({ history }) => {
       });
     }, 2000);
   };
+  const searchCuissines = () => {
+    setValues({ ...values, isLoading: true });
+    // setProgress(progress + 20);
+    setTimeout(() => {
+      searchByCuissines(cuss).then((response) => {
+        if (response.error) {
+          console.log(response.error);
+          setValues({ ...values, error: response.error, loading: false });
+        } else {
+          setValues({ ...values, error: '' });
 
+          setItems(response.hits);
+          setProgress(100);
+        }
+      });
+    }, 2000);
+  };
+  const searchDesserts = () => {
+    setValues({ ...values, isLoading: true });
+    // setProgress(progress + 20);
+    setTimeout(() => {
+      searchByDesserts(dess).then((response) => {
+        if (response.error) {
+          console.log(response.error);
+          setValues({ ...values, error: response.error, loading: false });
+        } else {
+          setValues({ ...values, error: '' });
+
+          setItems(response.hits);
+
+          setProgress(100);
+        }
+      });
+    }, 2000);
+  };
   const handleChange = (e) => {
     console.log('VALUE', e.target.value);
+    setValues({ ...values, searchfor: 'R' });
     setName(e.target.value);
     console.log(name);
     // ref.current.continuousStart();
+  };
+  const handleChangeForCuissines = (e) => {
+    console.log('VALUE', e.target.value);
+    setCussines(e.target.value);
+    setValues({ ...values, searchfor: 'C' });
+    console.log(cuss);
+  };
+  const handleChangeForDesserts = (e) => {
+    console.log('VALUE', e.target.value);
+    setDesserts(e.target.value);
+    setValues({ ...values, searchfor: 'D' });
+    console.log(dess);
   };
   const loadMenuBar = () => {
     return (
@@ -107,7 +187,7 @@ const Recipes = ({ history }) => {
               return (
                 <button
                   name={item}
-                  onClick={handleChange}
+                  onClick={handleChangeForCuissines}
                   value={item}
                   key={index}
                   className="listbtn"
@@ -122,7 +202,7 @@ const Recipes = ({ history }) => {
               return (
                 <button
                   name={item}
-                  onClick={handleChange}
+                  onClick={handleChangeForDesserts}
                   value={item}
                   key={index}
                   className="listbtn"

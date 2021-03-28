@@ -18,22 +18,39 @@ export const search = (find) => {
       console.log(error);
     });
 };
-// cuisineType = chinese & cuisineType = indian;
-// export const searchByCuisineType = (cuisineType) => {
-//   console.log('get searched', find);
-//   return fetch(
-//     `https://api.edamam.com/search?&app_id=${process.env.REACT_APP_EDMAN_ID}&app_key=${process.env.REACT_APP_EDMAN_KEY}`,
-//     {
-//       method: 'GET',
-//     }
-//   )
-//     .then((response) => {
-//       return response.json();
-//     })
-//     .then((data) => {
-//       return data;
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// };
+export const searchByCuissines = (cuisineType) => {
+  console.log('get searchedc', cuisineType);
+  return fetch(
+    `https://api.edamam.com/search?q=&app_id=${process.env.REACT_APP_EDMAN_ID}&app_key=${process.env.REACT_APP_EDMAN_KEY}&cuisineType=${cuisineType}`,
+    {
+      method: 'GET',
+    }
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+export const searchByDesserts = (dishType) => {
+  console.log('get searched', dishType);
+  return fetch(
+    `https://api.edamam.com/search?q=&app_id=${process.env.REACT_APP_EDMAN_ID}&app_key=${process.env.REACT_APP_EDMAN_KEY}&dishType=${dishType}`,
+    {
+      method: 'GET',
+    }
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
